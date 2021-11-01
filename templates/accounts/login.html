@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title> Login </title>
+  {% include './heads/header.html' %}
+</head>
+
+<body>
+  <header>
+    {% include './heads/logo.html' %}
+    <nav class="navHide">
+      <a href="{{ url_for('home') }}">Home</a>
+      <a href="{{ url_for('feature') }}">Features</a>
+      <a href="{{ url_for('join') }}">Join us</a>
+      <a href="{{ url_for('gallery') }}">Gallery</a>
+      
+      {% include './heads/userbtn.html' %}
+      </a>
+    </nav>
+  </header>
+  <div class="formBox nopopup">
+    <!-- this is for login  -->
+    <form id="boxsign" method="POST" action="{{url_for('login')}}" accept-charset="utf-8">
+      <h2> Login </h2>
+      <p> Don't have an Account? <a href="{{url_for('register')}}"> Sign in</a></p>
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      {% for message in messages %}
+      <p><em class="flash">
+          {{ message }}
+        </em></p>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+      <div class="field">
+        <input type="email" id="email" name="email" placeholder=" " pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" title="Please Complete your Email Address" required />
+        <label for="email">Email ID</label>
+      </div>
+      <div class="field">
+        <input type="password" id="password" name="password" placeholder=" " required pattern=".{8,}" title="Please Enter Correct Password" />
+        <label for="password">Password</label>
+      </div>
+      <a href="{{ url_for('forgot') }}"> Forget Password? </a>
+      <button class="btn" type="submit">
+        <i class="fas fa-user"></i>
+        <strong>Login</strong>
+      </button>
+    </form>
+  </div>
+  {% include './heads/footer.html' %}
+</body>
+
+</html>

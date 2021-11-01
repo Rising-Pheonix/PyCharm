@@ -1,0 +1,31 @@
+<div class="settingContent" id="other-settings">
+  <div class="formBox">
+    <form action="{{ url_for('other_settings_post', name=current_user.name) }}" method="POST">
+
+      <div class="field">
+        <input type="checkbox" name="" />
+        <span>Private your profile picture messed with and you yes you</span>
+      </div>
+
+      <div class="field">
+        <input type="checkbox" name="" checked />
+        <span>Private your email address</span>
+      </div>
+
+      <div class="field">
+        <input type="checkbox" name="" />
+        <span>Private your bio</span>
+      </div>
+
+      <div class="field">
+        <input type="checkbox" name="" />
+        <span>Enable Dark mode</span>
+      </div>
+
+      <button type="submit" class="btn">
+        <strong>Update</strong>
+      </button>
+
+    </form>
+  </div>
+</div>

@@ -1,0 +1,47 @@
+<div class="settingContent" id="edit-info">
+    <div class="formBox">
+        <form action="{{ url_for('settings_post', name=current_user.name) }}" method="POST"
+            enctype="multipart/form-data">
+            <div class="photo">
+                <label>
+                    <img id="uploadedPic" onerror="this.src = alt" src="{{ user['profile_pic'] }}"
+                        alt="/static/img/user.svg" />
+                    <input id="uploadPic" type="file" accept="image/*" name="profile-pic" hidden>
+                </label>
+                <div class="selection">
+                    <label for="uploadPic">
+                        <i class="fas fa-upload"></i>
+                        <strong>Upload</strong>
+                    </label>
+
+                    <label id="btnDelete">
+                        <i class="fas fa-trash-can"></i>
+                        <strong>Remove</strong>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Fix the Pre-filled Input Issue-->
+            <div class="field">
+                <input type="email" name="edit-email" placeholder="Enter Email" value="{{ user['email'] }}">
+            </div>
+            <div class="field">
+                <input type="text" name="edit-username" placeholder="Enter username" value="{{ user['name'] }}" />
+            </div>
+            {% if user['bio'] == None: %}
+            <div class="field">
+                <input type="text" name="edit-boi" placeholder="Write about yourself" value="" />
+            </div>
+            {% else: %}
+            <div class="field">
+                <input type="text" name="edit-boi" placeholder="Write about yourself" value="{{ user['bio'] }}" />
+            </div>
+            {% endif %}
+
+            <div class="utility">
+                <a href="{{ url_for('settings', name=current_user.name) }}">Cancel</a>
+                <button type="submit" class="btn">Update</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,370 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700;800;900&display=swap');
+
+
+@media screen and (max-width: 868px) {
+
+  :root {
+    scroll-padding-top: 60px;
+  }
+
+  .flash {
+    font-size: 0.6rem;
+  }
+
+
+  body {
+    min-width: 320px;
+    box-shadow: 0 -1px 10px #2222, 0 1px 10px #2222;
+  }
+
+  footer {
+    font-size: 13px;
+    margin: 0;
+  }
+
+  footer .footNav a {
+    font-size: 20px;
+    margin: 0 8px;
+  }
+
+  header {
+    flex-flow: row;
+    position: sticky;
+    z-index: 4;
+    top: 0;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  header .menuBar {
+    display: flex;
+    background: var(--theme-color);
+    padding: 5px;
+    font-size: 18px;
+    border: 1px outset var(--theme-color);
+    box-shadow: 0 0 1px #000;
+    border-radius: 2px;
+  }
+
+  header .menuBar:active {
+    border: 1px inset var(--theme-color);
+    transform: scale(0.90);
+  }
+
+  header .logo h1 {
+    font-size: 1.8rem;
+    letter-spacing: -4px;
+  }
+
+  header .logo {
+    align-self: stretch;
+  }
+
+  header .navHide {
+    transform: translateY(114px) scaleY(0);
+    transform-origin: center top;
+    display: flex;
+    flex-flow: column;
+    width: 100%;
+    padding: 10px;
+    position: absolute;
+    inset: auto 0;
+    background: #fff;
+    transition: all 0.3s;
+    z-index: 4;
+  }
+
+  header nav.navShow {
+    transform: translateY(114px) scaleY(1);
+    box-shadow: 0 10px 5px -8px #0009;
+  }
+
+  header nav a {
+    flex: 1;
+    width: 100%;
+    font-size: 0.8rem;
+    margin-inline: 0; 
+    margin-block: 10px 0;
+    padding: 5px 0;
+    border-bottom: 2px solid transparent;
+    position: relative;
+  }
+
+  header nav a:hover:not(.btn),
+  header nav a.active:not(.btn) {
+    text-align: center;
+    letter-spacing: 10px;
+  }
+
+  header nav a:not(.btn)::before {
+    height: 2px;
+  }
+
+  header .user {
+    width: 32px;
+    height: 32px;
+  }
+
+  header #desktop {
+    display: none;
+  }
+
+  header #mobile {
+    display: inline-block;
+  }
+
+  .login .formBox {
+    top: 140px;
+    position: fixed;
+  }
+
+  .login .formBox form {
+    width: 90%;
+    padding: 10px 10%;
+  }
+
+
+  /* this is for main */
+
+  .container {
+    display: grid;
+    grid-template: auto / 1fr;
+    margin: 0;
+  }
+
+  .container .box {
+    font-size: 0.75rem;
+    padding: 10px 8%;
+    width: unset;
+    margin: 0;
+  }
+
+  .container .box:hover {
+    margin: 0 3%;
+    padding: 10px 5%;
+  }
+
+  .container .box .btn {
+    font-size: 14px;
+    border-width: 1px;
+  }
+
+  .buzz {
+    margin: 0;
+  }
+
+
+  /* this is for login page */
+
+  .formBox form {
+    width: 90%;
+    padding: 10px 8%;
+  }
+
+  .formBox form .field input {
+    width: 100%;
+  }
+
+  .formBox form .btn {
+    font-size: 0.9rem;
+  }
+
+
+
+  /* this is for join page */
+
+  .join .headBox {
+    height: 180px;
+    border-bottom-left-radius: 50% 60%;
+  }
+
+  .join .headBox h2 {
+    font-size: 1.2rem;
+  }
+
+  .join .headBox .btn {
+    font-size: 0.9rem;
+  }
+
+  .join .listBox .list {
+    font-size: 12px;
+    flex: 1 0 40%;
+    width: 0;
+  }
+
+  .join .listBox .list div {
+    font-size: 16px;
+  }
+
+  .highlight {
+    font-size: 1.3rem;
+  }
+
+  /*   this is for about us page */
+  .blockHead {
+    align-items: stretch;
+  }
+
+  .blockHead h2 {
+    font-size: 1.4rem;
+    padding: 0;
+  }
+
+  .blockHead p {
+    font-size: 1rem;
+  }
+
+
+  .block {
+    grid-template: auto / 1fr;
+    padding: 10px 0;
+  }
+
+  .block .about .aboutList {
+    padding: 10px;
+    grid-gap: 10px;
+  }
+
+  .block .about .aboutList .box h3 {
+    font-size: 1.2rem;
+  }
+
+  .block .about .aboutList .box p {
+    font-size: 0.8rem;
+  }
+
+
+
+  /* this is for contact us page */
+  .block .contact {
+    width: initial;
+    padding: 20px 0;
+    place-self: unset;
+    margin: 0 10px;
+  }
+
+  .block .contact .highlight {
+    font-size: 1.5rem;
+  }
+
+  .block .contact p {
+    font-size: 0.9rem;
+  }
+
+  .block .contact .msg {
+    width: 80%;
+  }
+
+  .block .contact .msg .field {
+    padding: 16px 0 0;
+  }
+
+  .msg .field label {
+    font-size: 0.8rem;
+    transform: translateY(45%);
+  }
+
+  .msg .field [id] {
+    font-size: 0.8rem;
+  }
+
+  .block .contact .msg .btn {
+    font-size: 1rem;
+    border-width: 1px;
+  }
+
+
+  /*  this is for feature page */
+  .feature .title {
+    font-size: 20px;
+  }
+
+  .feature .frameBox {
+    flex-flow: column;
+    padding: 5px;
+  }
+
+  .feature .frameBox .player {
+    flex: 1;
+    width: 100%;
+    border-radius: 0;
+  }
+
+  .feature .frameBox .eps {
+    flex: 1;
+    width: 100%;
+    padding: 10px 5px;
+    grid-gap: 10px;
+  }
+
+  .frameBox .eps .btn .link {
+    padding: 8px;
+    grid-gap: 6px;
+  }
+
+  .frameBox .eps .btn .link p {
+    font-size: 10px;
+  }
+
+  .feature .add {
+    justify-content: center;
+  }
+
+  .feature .add .btn {
+    font-size: 16px;
+  }
+
+  /*this  is for gallery page*/
+  .gallery .uploadBox {
+    height: auto;
+    flex-flow: column-reverse;
+    align-items: stretch;
+    justify-content: stretch;
+  }
+
+  .gallery .uploadBox .title {
+    flex: 1;
+    width: 100%;
+    margin: 0;
+    align-items: center;
+    border-inline: 6px solid var(--theme-color);
+  }
+
+  .uploadBox .title h2 {
+    font-size: 26px;
+  }
+
+  .uploadBox .title h4 {
+    font-size: 16px;
+  }
+
+  .uploadBox .title .btn {
+    font-size: 16px;
+  }
+
+  .gallery .uploadBox img {
+    flex: 1;
+    transform: scale(1);
+    width: 100%;
+  }
+
+  /*this for content updating*/
+  .gallery .mainBox {
+    padding: 10px;
+    grid-gap: 20px;
+    grid-template: auto/ 1fr;
+  }
+
+  .gallery .mainBox .list {
+    flex: 1;
+    width: 100%;
+  }
+  
+  /* =============
+  this is for profile icon
+  ===============*/
+  .overlay {
+    top: 50px;
+  }
+}
