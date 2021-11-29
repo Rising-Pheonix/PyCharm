@@ -10,12 +10,12 @@
 }
 
 :root {
-  --theme-color: #a00;
-  --light-theme-color: #c00;
-  --light: #fff;
-  --dark: #000;
+  --theme-color: #c00;
+  --light-theme-color: #d00;
+  --light: #eee;
+  --dark: #222;
   scroll-behavior: smooth;
-  background: var(--light);
+  background: #fff;
   color: var(--dark);
   overflow-y: auto;
   overflow-y: overlay;
@@ -26,15 +26,15 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #222;
+  background: var(--dark);
   margin-block: 5em;
   border-radius: 100vw;
   background-clip: content-box;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #f00;
-  border: 2px #222 solid;
+  background: var(--light-theme-color);
+  border: 2px var(--dark) solid;
   border-radius: 100vw;
 }
 
@@ -44,7 +44,7 @@ body {
 }
 
 @media screen and (min-width: 500px){
-  body >*:not(header, footer, .login, .overlay, h2.title, .nopopup, .settings) {
+  body >*:not(header, footer, .login, .overlay, h2.title, .nopopup, .settings, .privacy) {
     transform: scale(0.8) translateY(-12.5%);
     margin: 0 auto;
   }
@@ -69,7 +69,7 @@ a:not(.btn):hover {
   display: flex;
   justify-content: center;
   align-items: center;
-  grid-gap: 15px;
+  grid-gap: 10px;
   font-weight: 700;
   transition: all 0.3s;
   text-decoration: none;
@@ -79,7 +79,7 @@ a:not(.btn):hover {
 }
 
 .btn:active {
-  transform: scale(0.95);
+  transform: scale(0.90);
   text-decoration: none;
   border-style: inset;
 }
@@ -95,23 +95,23 @@ a:not(.btn):hover {
   margin: 10px 0;
   padding: 2px 3px;
   border-radius: 2px;
-  border: 1px solid #a00;
-  background: #c55;
+  border: 1px solid var(--theme-color);
+  background: var(--light-theme-color);
   transform: scale(0.5);
   animation: overlay 1s forwards;
 }
 
 h2.title {
   background: var(--theme-color);
-  padding: 10px;
+  padding: 5px;
   text-align: center;
-  color: #fff;
+  color: var(--light);
 }
 
 #btnloading {
   margin-top: 10px;
   font-size: 2rem;
-  color: #a00;
+  color:var(--theme-color);
   animation-duration: 1s;
 }
 
@@ -129,8 +129,8 @@ footer {
   flex-flow: column;
   padding: 10px;
   line-height: 1.5;
-  background: #2c3e50;
-  color: #fff9;
+  background: var(--light);
+  color: var(--dark);
 }
 
 footer h4,
@@ -173,7 +173,7 @@ header {
   flex-flow: row;
   align-items: center;
   justify-content: space-between;
-  background: #eee;
+  background: var(--light);
   padding: 6px 10px;
 }
 
@@ -249,6 +249,7 @@ header .user {
   vertical-align: middle;
   position: relative;
   transition: all 0.3s;
+  cursor: pointer;
 }
 
 header .user:active {
@@ -285,7 +286,7 @@ header #mobile {
   top: -10px;
   right: -10px;
   color: var(--theme-color);
-  background: #fff;
+  background: var(--light);
   font-size: 28px;
   border-radius: 50%;
   cursor: pointer;
@@ -297,7 +298,7 @@ header #mobile {
 
 .login .formBox {
   transition: all 0.4s;
-  color: #000;
+  color: var(--dark);
   position: absolute;
   width: 100%;
   height: auto;
@@ -322,7 +323,7 @@ header #mobile {
   width: 50%;
   padding: 20px 6%;
   border-radius: 10px;
-  background: url("../img/bg.jpeg") no-repeat center/cover, #fff;
+  background: url("../img/bg.jpeg") no-repeat center/cover, var(--light);
 }
 
 
@@ -355,7 +356,7 @@ header #mobile {
   box-shadow: -1px -1px #0009 inset, 2px 2px #fff7 inset;
   transform: scale(0.94);
   border-radius: 5px;
-  color: #fff;
+  color: var(--light);
 }
 
 .container .box:nth-child(1):hover {
@@ -375,16 +376,16 @@ header #mobile {
   aspect-ratio: 16/9;
   margin: 0;
   border-radius: 4px;
-  border: 1px solid black;
+  border: 1px solid var(--dark);
 }
 
 
 .container .box h2 {
-  border: 1px solid #000;
+  border: 1px solid var(--dark);
   padding: 5px 16px;
   margin: 10px 0;
   border-radius: 2px;
-  color: #fff;
+  color: var(--light);
 }
 
 .container .game h2 {
@@ -392,7 +393,7 @@ header #mobile {
 }
 
 .container .anime h2 {
-  background: blue linear-gradient(60deg, royalblue, cornflowerblue);
+  background: linear-gradient(60deg, royalblue, cornflowerblue);
 }
 
 .container .league h2 {
@@ -431,7 +432,7 @@ header #mobile {
   border-color: mediumseagreen;
   pointer-events: none;
   cursor: default;
-  text-decoration: 3px line-through var(--theme-color);
+  text-decoration: 2px line-through var(--theme-color);
 }
 
 
@@ -508,7 +509,7 @@ header #mobile {
 .formBox form h2 {
   margin: 0 0 2%;
   letter-spacing: 1px;
-  border-bottom: 3px solid #000;
+  border-bottom: 3px solid var(--dark);
 }
 
 .formBox form p {
@@ -530,7 +531,7 @@ header #mobile {
   width: 100%;
   outline: none;
   border: 1px solid #0009;
-  color: #000;
+  color: var(--dark);
   background: transparent;
   font-family: 'Nunito', sans-serif;
   padding: 10px 16px;
@@ -583,13 +584,13 @@ header #mobile {
 
 .formBox form .field input:focus,
 .field input:not(:placeholder-shown) {
-  border: 2px solid #000;
+  border: 2px solid var(--dark);
 }
 
 .formBox form .field input:focus~label,
 .formBox form .field input:not(:placeholder-shown)~label {
   padding: 0 5px;
-  color: #000;
+  color: var(--dark);
   background: #fff;
   font-weight: 700;
   left: 3%;
@@ -610,8 +611,7 @@ header #mobile {
 ==========*/
 
 .join {
-  color: #fff;
-  background: #ddd;
+  color: var(--light);
 }
 
 .join .headBox {
@@ -623,6 +623,7 @@ header #mobile {
   justify-content: center;
   overflow: hidden;
   background: #2c3e50;
+  background: #555;
   border-bottom-left-radius: 50% 65%;
 }
 
@@ -653,11 +654,11 @@ header #mobile {
   flex-flow: row wrap;
   grid-gap: 10px;
   text-align: center;
-  color: #fff9;
 }
 
 .join .listBox .list {
   background: #2c3e50;
+  background: #555;
   border-radius: 5px;
   box-shadow: -1px -1px #0009 inset, 1px 1px #fff7 inset;
   border: 1px solid #000;
@@ -668,13 +669,12 @@ header #mobile {
 
 .join .listBox .list:hover {
   transform: scale(0.95);
-  color: #fff;
+  color: var(--light);
   background: var(--theme-color);
 }
 
 .join .listBox .list div {
-  background: #000;
-  color: #fff;
+  background: var(--dark);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -721,7 +721,7 @@ header #mobile {
 .block {
   display: grid;
   grid-template: auto/ repeat(2, 1fr);
-  color: #fff;
+  color: var(--light);
   padding: 10px;
   grid-gap: 10px;
   text-align: center
@@ -733,7 +733,7 @@ header #mobile {
   justify-content: center;
   align-items: center;
   grid-gap: 10px;
-  color: #fff9;
+  color: var(--light);
 }
 
 .block .about .aboutList .box a {
@@ -746,6 +746,7 @@ header #mobile {
   flex: 1;
   border-radius: 5px;
   background: #2c3e50;
+  background: #555;
   box-shadow: -2px -2px #0009 inset, 2px 2px #fff7 inset;
   border: 1px solid #000;
   padding: 20px;
@@ -754,7 +755,7 @@ header #mobile {
 
 .block .about .aboutList .box:hover {
   transform: scale(0.95);
-  color: #fff;
+  color: var(--light);
   background: cadetblue;
 }
 
@@ -764,7 +765,7 @@ header #mobile {
 
 .block .about .aboutList .box h3 {
   font-size: 1.4rem;
-  color: #fff;
+  color: var(--light);
   padding: 5px 10px;
   border-radius: 2px;
   margin: 0;
@@ -804,6 +805,7 @@ header #mobile {
   justify-content: center;
   align-self: start;
   background: #2c3e50;
+  background: #555;
   border: 1px solid #000;
   padding: 25px;
   border-radius: 5px;
@@ -819,7 +821,7 @@ header #mobile {
   font-size: 1.2rem;
   margin: 0;
   font-weight: 700;
-  color: #fff9;
+  color: var(--light);
 }
 
 .block .contact .msg {
@@ -839,7 +841,7 @@ header #mobile {
   font-size: 1rem;
   position: absolute;
   left: 4%;
-  color: #fff7;
+  color: #fff9;
   transform: translateY(50%);
   transition: all 0.3s;
 }
@@ -848,8 +850,8 @@ header #mobile {
   outline: none;
   font-size: 1rem;
   width: 100%;
-  border: 1px solid #fff7;
-  color: #fff;
+  border: 1px solid #fff9;
+  color: var(--dark);
   font-family: 'Nunito', sans-serif;
   resize: none;
   font-weight: 600;
@@ -860,35 +862,22 @@ header #mobile {
 }
 
 .msg .field [id]:focus {
-  border: 2px solid #fff;
+  border: 2px solid var(--light);
 }
 
 .msg .field [id]:focus~label,
 .msg .field [id]:not(:placeholder-shown)~label {
-  color: #fff;
+  color: var(--light);
   font-weight: 700;
   background: #2c3e50;
+  background: #555;
   padding: 0 5px;
   left: 2%;
   transform: translateY(-50%) scale(0.90);
 }
 
-.msg .field [id]:valid:not(:placeholder-shown) {
-  border: 2px solid #0a0;
-  color: #0a0;
-}
-
-.msg .field [id]:valid:not(:placeholder-shown)~label {
-  color: #0a0;
-}
-
 .block .contact .msg .btn {
-  background: var(--theme-color);
-  color: #fff;
-  font-size: 1.3rem;
-  font-family: 'Nunito', sans-serif;
-  border-color: var(--theme-color);
-  border-width: 1px;
+  color: var(--light);
   margin: 10px 0 0;
 }
 
@@ -900,13 +889,13 @@ header #mobile {
 .feature .frameBox {
   display: flex;
   padding: 10px;
-  background: #ddd;
+  background: var(--light);
 }
 
 .feature .frameBox .player {
   flex: 1;
   aspect-ratio: 16/9;
-  background: #222;
+  background: var(--dark);
   width: 50%;
   box-shadow: 0 0 2px #0009;
   border: none;
@@ -926,7 +915,7 @@ header #mobile {
 }
 
 .feature .frameBox .eps .btn {
-  color: #000;
+  color: var(--dark);
   background: transparent;
   display: flex;
   align-items: stretch;
@@ -946,7 +935,7 @@ header #mobile {
 
 .frameBox .eps .btn:hover .link {
   text-decoration: none;
-  color: #fff;
+  color: var(--light);
 }
 
 .frameBox .eps .btn:hover .delete {
@@ -965,7 +954,7 @@ header #mobile {
 
 .frameBox .eps .btn .link img {
   aspect-ratio: 16/ 9;
-  background: #222;
+  background: var(--dark);
   flex: 0 0 30%;
   width: 0;
   align-self: center;
@@ -983,10 +972,10 @@ header #mobile {
 .frameBox .eps .btn .delete {
   flex: 0 0 15%;
   width: 0;
-  background: #000;
+  background: var(--dark);
   justify-content: center;
   align-items: center;
-  color: #fff;
+  color: var(--light);
   display: flex;
   transform-origin: right center;
   transform: scaleX(0);
@@ -1026,7 +1015,7 @@ header #mobile {
 .gallery .uploadBox .title {
   flex: 1;
   width: 50%;
-  padding: 20px;
+  padding: 10px;
   grid-gap: 10px;
   display: flex;
   flex-flow: column;
@@ -1049,7 +1038,6 @@ header #mobile {
 }
 
 .uploadBox .title .btn {
-  color: #fff;
   padding: 5px 10px;
   margin: 10px 0 0;
   font-size: 18px;
@@ -1060,7 +1048,8 @@ header #mobile {
 .uploadBox img {
   flex: 1;
   width: 50%;
-  transform: scale(0.85);
+  padding: 10px;
+  transform: scale(0.80);
 }
 
 
@@ -1087,7 +1076,7 @@ header #mobile {
 
 .gallery nav a {
   padding: 5px 8px;
-  color: #000;
+  color: var(--dark);
   font-weight: 800;
   word-spacing: 5px;
   border: 3px solid transparent;
@@ -1106,20 +1095,20 @@ header #mobile {
 
 .gallery .mainBox .list {
   padding: 10px;
-  color: #000;
+  color: var(--dark);
   border-radius: 4px;
   display: flex;
   flex-flow: column;
   grid-gap: 10px;
   box-shadow: 0 0 2px #0009;
-  background: #ddd;
+  background: var(--light);
 }
 
 .mainBox .list:hover {
   background: var(--light-theme-color);
   border: 2px solid #000;
   box-shadow: -1px -1px #0009 inset, 2px 2px #fff7 inset;
-  color: #fff;
+  color: var(--light);
 }
 
 #pic .list:hover {
@@ -1139,7 +1128,7 @@ header #mobile {
 
 .mainBox .list .vPlayer,
 .mainBox .list .iPlayer {
-  background: #222;
+  background: var(--dark);
   aspect-ratio: 16/9;
   width: 100%;
 }
@@ -1162,7 +1151,7 @@ this is for profile icon
 .overlay > * {
   position: absolute;
   inset: 0;
-  background: #fff;
+  background: var(--light);
   margin: auto;
   transform: scale(0);
   opacity: 0;
@@ -1190,7 +1179,7 @@ this is for profile icon
 }
 
 .deleteConfirm i:first-child {
-  color: #a00;
+  color: var(--theme-color);
   border: 3px solid;
   border-radius: 50%;
   width: 81px;

@@ -1,5 +1,5 @@
 let account = document.querySelector('.account');
-let setting = document.querySelector('.settings');
+let setting = document.querySelector('.settingContent');
 
 
 
@@ -27,21 +27,14 @@ let file;
 
 
 if (setting) {
-  for (let i = 0; i < settingNav.length; i++) {
-    settingNav[i].addEventListener('click', () => {
-      let SC = settingContent;
-      let SN = settingNav;
-
-      settingFunction(SC[i], SC, event.target, SN);
-    });
-  }
-
+ 
   // Profile uploaded image from user
   inputPic.addEventListener("change", function() {
 
     file = this.files[0];
     showFile();
   });
+
 
 
   btnDelete.addEventListener('click', () => {
@@ -61,7 +54,7 @@ if (setting) {
 	    <p>it will permanently delete this, are you u want to remove this?</p>
 	  
 	    <div class="utility">
-	      <a class="btn" href="/delete">Delete</a>
+	      <a class="btn" href="{{ url_for('delete') }}">Delete</a>
 	    </div>
     `;
 

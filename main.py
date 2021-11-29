@@ -11,6 +11,10 @@ from flask_login import UserMixin, login_user, LoginManager, login_required, cur
 from datetime import date
 from random import choice, randint, shuffle
 from yt import upload_vid_to_yt
+import cloudinary
+from cloudinary import uploader
+import requests
+import base64
 import os
 
 # TODO : Change all env variables
@@ -25,6 +29,15 @@ Holy_Weebs = "https://chat.whatsapp.com/D5ed7HHs3qq2oHK77Kq9Hj"
 # TODO : Try to upload image files directly to server
 ImgBB_Key = "5a48610469a8a375bb344eb0335517dc"
 ImgBB_Link = "https://api.imgbb.com/1/upload"
+
+Unsplash_Access_Key = 'YG2pu5F3eWsOiwsIMtEugbOrA9zD2ZV2ZBTQjrQd5fQ'
+Unsplash_Secret_Key = 'VTMIdRm9m6Uw1MKheKaXOAYULsgIV8Y18ucqTBcmFe4'
+Unsplash_Link = f'https://api.unsplash.com/photos/?client_id={Unsplash_Access_Key}'
+
+Cloudinary_Api_Link = 'https://api.cloudinary.com/v1_1/rp-web/image/upload'
+Cloudinary_Api_Key = '694757294873781'
+Cloudinary_Api_Secret = 'Jtc6kSrM4CShKDaa9yljnHsVL7g'
+Cloudinary_Api_Name = 'rp-web'
 
 # --- Mega ---
 mega = Mega()
@@ -61,7 +74,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:/
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-
 
 # --- Login-Manager ---
 login_manager = LoginManager()
@@ -106,6 +118,7 @@ class Gallery(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
     name = db.Column(db.String(250), nullable=False)
+    type = db.Column(db.String(100), nullable=False)
     title = db.Column(db.String(250), nullable=False)
     description = db.Column(db.Text, nullable=False)
     date = db.Column(db.String(250), nullable=False)
@@ -180,7 +193,6 @@ def home():
     return render_template("tabs/home.html", current_user=current_user)
 
 
-# TODO : Profile link customize with login check
 @app.route('/register', methods=["GET", "POST"])
 def register():
     if request.method == "POST":
@@ -323,9 +335,12 @@ def reset_password_post(id):
         salt_length=8
     )
     reset_id = User(
+        unique_id=user.unique_id,
         name=name,
         email=email,
-        password=hash_and_salted_password
+        password=hash_and_salted_password,
+        profile_pic=user.profile_pic,
+        bio=user.bio
     )
     db.session.add(reset_id)
     db.session.commit()
@@ -435,7 +450,6 @@ def gallery():
     return render_template("tabs/gallery.html", current_user=current_user, videos=video_data, photos=photo_data)
 
 
-# TODO : Add the upload in progress html
 # TODO : see if you can use user_id to get the username
 # TODO : date time change to ago format
 # TODO : remove the possibility of uploading pdfs and others
@@ -453,24 +467,56 @@ def gallery_upload():
             name = current_user.name
             title = request.form['title']
             description = request.form['description']
+            option = request.form['option']
             date_time = date.today().strftime("%d %b %Y")
-
-            m = mega.login("risingphoenix.web.in@gmail.com", 'brawlstars@2018')
-            # m = mega.login(os.environ.get('MEGA_ID'), os.environ.get('MEGA_PASS'))
 
             filename = secure_filename(file.filename)
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(file_path)
             file_to_upload = os.path.join(app.config['UPLOAD_FOLDER'], filename)
 
-            m.upload(file_to_upload)
+            # TODO: Fix the base64 code for image, or find some other way to upload files (ps. removed option from upload-admin)
+            if option == 'Image':
+                cloudinary.config(
+                    cloud_name=Cloudinary_Api_Name,
+                    api_key=Cloudinary_Api_Key,
+                    api_secret=Cloudinary_Api_Secret
+                )
+
+                uploader.upload(
+                    file_to_upload
+                )
+                
+                # with open(file_to_upload, "rb") as img_file:
+                #     my_string = base64.b64encode(img_file.read())
+                # img_code = my_string.decode('utf-8')
+                # parameters = {
+                #     "key": ImgBB_Key,
+                #     "image": img_code,
+                #     "name": title
+                # }
+                # response = requests.post(
+                #     url=ImgBB_Link,
+                #     params=parameters
+                # )
+                # print(response)
+                # response_json = response.json()
+                # print(response_json)
+                # img_url = response_json["data"]["url"]
+                # print(img_url)
+            else:
+                m = mega.login("risingphoenix.web.in@gmail.com", 'brawlstars@2018')
+                # m = mega.login(os.environ.get('MEGA_ID'), os.environ.get('MEGA_PASS'))
+
+                m.upload(file_to_upload)
 
             new_upload = Gallery(
                 name=name,
                 title=title,
                 description=description,
                 date=date_time,
-                user=current_user
+                user=current_user,
+                type=option
             )
             db.session.add(new_upload)
             db.session.commit()
@@ -500,8 +546,6 @@ def gallery_upload():
 @app.route('/gallery/upload/admin', methods=['GET', 'POST'])
 def gallery_upload_admin():
     if request.method == 'POST':
-        option = request.form['option']
-
         upload_user = User.query.get(request.form['user_id'])
         email = upload_user.email
 
@@ -509,8 +553,9 @@ def gallery_upload_admin():
         name = post.name
         title = post.title
         description = post.description
+        type = post.type
 
-        if option == 'Image':
+        if type == 'Image':
             admin_upload = Gallery_Photo(
                 name=name,
                 title=title,
@@ -523,7 +568,7 @@ def gallery_upload_admin():
             db.session.commit()
             return redirect(url_for('gallery'))
 
-        elif option == 'Video':
+        elif type == 'Video':
             yt_url = request.form['youtube']
             msg = Message(
                 subject="Your Video Selected!",
@@ -568,7 +613,6 @@ def gallery_photo_delete(photo_id):
     return redirect(url_for('gallery'))
 
 
-# TODO : Make a Profile Page
 # TODO : Make storage for profile pics (locally or cloud)
 @app.route('/profile/u/<name>')
 def profile(name):
@@ -580,33 +624,170 @@ def profile(name):
         else:
             return render_template('profile.html', user=user)
     except AttributeError:
-        return render_template('profile.html', user=user)
+        return redirect(url_for('login'))
 
 
-@app.route('/profile/u/<name>/edit')
-def edit_profile(name):
-    user = User.query.filter_by(name=name).first()
-    try:
-        if current_user.unique_id == user.unique_id:
-            print(f"id: {current_user.unique_id}, name: {name}")
-            return render_template('profile.html', is_auth=True, user=user)
-        else:
-            return redirect(url_for('home'))
-    except AttributeError:
-        return redirect(url_for('join'))
+# TODO : Check if you need following code
+# @app.route('/profile/u/<name>/edit')
+# def edit_profile(name):
+#     user = User.query.filter_by(name=name).first()
+#     try:
+#         if current_user.unique_id == user.unique_id:
+#             print(f"id: {current_user.unique_id}, name: {name}")
+#             return render_template('profile.html', is_auth=True, user=user)
+#         else:
+#             return redirect(url_for('home'))
+#     except AttributeError:
+#         return redirect(url_for('join'))
 
 
+# TODO : Make the settings work again
 @app.route('/profile/u/<name>/settings')
 def settings(name):
     user = User.query.filter_by(name=name).first()
     try:
         if current_user.unique_id == user.unique_id:
             print(f"id: {current_user.unique_id}, name: {name}")
-            return render_template('settings.html', is_auth=True, user=user)
+            return render_template('settings/settings.html', is_auth=True, user=user)
         else:
             return redirect(url_for('home'))
     except AttributeError:
-        return redirect(url_for('join'))
+        return redirect(url_for('not_found'))
+
+
+# TODO : Make the settings work again
+# TODO : Save the Profile Pic somewhere
+@app.route('/profile/u/<name>/settings/post', methods=['POST'])
+def settings_post(name):
+    user = User.query.filter_by(name=name).first()
+    try:
+        if current_user.unique_id == user.unique_id:
+            print(f"id: {current_user.unique_id}, name: {name}")
+
+            if 'profile-pic' not in request.files:
+                flash('No file selected')
+                return redirect(request.url)
+            file = request.files['profile-pic']
+            if file.filename == '':
+                flash('No file selected for uploading')
+                return redirect(request.url)
+            else:
+                email = request.form['edit-email']
+                name = request.form['edit-username']
+                bio = request.form['edit-bio']
+
+                filename = secure_filename(file.filename)
+                file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                file.save(file_path)
+                file_to_upload = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+
+            return render_template('settings/settings.html', is_auth=True, user=user)
+        else:
+            return redirect(url_for('home'))
+    except AttributeError:
+        return redirect(url_for('not_found'))
+
+
+@app.route('/profile/u/<name>/settings/change-password', methods=['GET'])
+def change_password(name):
+    user = User.query.filter_by(name=name).first()
+    try:
+        if current_user.unique_id == user.unique_id:
+            print(f"id: {current_user.unique_id}, name: {name}")
+            return render_template('settings/change-password.html', is_auth=True, user=user)
+        else:
+            logout_user()
+            flash('Please Login to Continue')
+            return redirect(url_for('login'))
+    except AttributeError:
+        flash('Please Login to Continue')
+        return redirect(url_for('login'))
+
+
+# TODO : Check all the parameters for the password Change
+@app.route('/profile/u/<name>/settings/change-password/post', methods=['POST'])
+def change_password_post(name):
+    user = User.query.filter_by(name=name).first()
+    try:
+        if current_user.unique_id == user.unique_id:
+            print(f"id: {current_user.unique_id}, name: {name}")
+            old_pass = request.form['old_pass']
+            new_pass = request.form['new_pass']
+            if old_pass == new_pass:
+                flash('Please Enter A Brand-New Password!')
+                return redirect(request.url)
+            elif not check_password_hash(user.password, old_pass):
+                flash('Incorrect Old Password! Please Try Again.')
+                return redirect(request.url)
+            else:
+                name = user.name
+                email = user.email
+                date_time = date.today().strftime("%m/%d/%Y, %H:%M:%S")
+                hash_and_salted_password = generate_password_hash(
+                    new_pass,
+                    method='pbkdf2:sha256',
+                    salt_length=8
+                )
+                reset_id = User(
+                    unique_id=user.unique_id,
+                    name=name,
+                    email=email,
+                    password=hash_and_salted_password,
+                    profile_pic=user.profile_pic,
+                    bio=user.bio
+                )
+                db.session.delete(user)
+                db.session.commit()
+                db.session.add(reset_id)
+                db.session.commit()
+                msg = Message(
+                    subject="Rising Phoenix Password Reset",
+                    body=f"Hello {name}\n"
+                         f"Your Password reset was successful on {date_time}.\n\n"
+                         f"Please continue to enjoy our service without any hesitation.\n"
+                         f"We are always there for any queries you have.\n\n"
+                         f"If you haven't done the reset, "
+                         f"please contact us immediately via our support line on "
+                         f"https://risingphoenix.herokuapp.com/join\n"
+                         f"Also, please mention your query as 'Pass Issue'\n\n\n"
+                         f"--\n"
+                         f"This is an Auto-generated mail. Sender doesn't support replies.",
+                    recipients=[email]
+                )
+                mail.send(msg)
+                flash('Password changed successfully! Please login to Continue.')
+                logout_user()
+                return redirect(url_for('login'))
+        else:
+            return redirect(url_for('home'))
+    except AttributeError:
+        return redirect(url_for('not_found'))
+
+
+@app.route('/profile/u/<name>/settings/others', methods=['GET'])
+def other_settings(name):
+    user = User.query.filter_by(name=name).first()
+    try:
+        if current_user.unique_id == user.unique_id:
+            print(f"id: {current_user.unique_id}, name: {name}")
+            return render_template('settings/other-settings.html', is_auth=True, user=user)
+        else:
+            return redirect(url_for('home'))
+    except AttributeError:
+        return redirect(url_for('not_found'))
+
+
+@app.route('/profile/u/<name>/settings/others/post', methods=['POST'])
+def other_settings_post(name):
+    user = User.query.filter_by(name=name).first()
+    try:
+        if current_user.unique_id == user.unique_id:
+            print(f"id: {current_user.unique_id}, name: {name}")
+            return render_template('settings/others-settings.html', is_auth=True, user=user)
+        else:
+            return redirect(url_for('home'))
+    except AttributeError:
+        return redirect(url_for('not_found'))
 
 
 # TODO : make a terms & conditions pdf
@@ -621,17 +802,17 @@ def not_found():
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(port=4000)
 
 # Extra Work's
 # TODO : Adding @User in url for logged in user
-# TODO : Adding profile section inplace of Logout Button
 # TODO : Different kinds of flash messages
 # TODO : Add Dark-mode to website
-# TODO : Add anchor tag in gallery to user page
 # TODO : Change the icon size
 # TODO : Login button fix
-# TODO : Add change password function
 # TODO : Make and work on Settings Privacy section
-# TODO : Make 3 inputs for Settings Password Section
 # TODO : Retrieve the Name and Location of device using website
+# TODO : See if you can make users choose whether it is video upload or Image upload
+# TODO : Fix the Pre-filled input issue in the settings tab
+# TODO : Catch the Tickboxes from other-settings tab
+# TODO : Add the Forbidden Page to website

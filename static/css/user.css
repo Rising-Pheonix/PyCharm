@@ -31,13 +31,13 @@
   color: #777;
 }
 .field .items:hover {
-  color: #000;
+  color: var(--dark);
 }
 
 .info .field .profilePic {
   border-radius: 50%;
-  background: #ddd;
-  border: 1px solid #a00;
+  background: var(--light);
+  border: 1px solid var(--theme-color);
   width: 50%;
   transform: scale(0.75);
   max-width: 100%;
@@ -48,8 +48,8 @@
   color: var(--theme-color);
 }
 .info .field .btn {
-  border-color: #a00;
-  background: #a00;
+  border-color: var(--theme-color);
+  background: var(--theme-color);
   padding: 6px 50px;
   margin-top: 20px;
   align-self: start;
@@ -81,7 +81,7 @@
   width: 40px;
   height: 20px;
   z-index: -1;
-  background: #ddd;
+  background: var(--light);
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
   position: absolute;
   top: -10px;
@@ -91,7 +91,7 @@
 .user-popup .user-nav {
   display: flex;
   flex-flow: column;
-  background: #ddd;
+  background: var(--light);
   box-shadow: 0px 5px 10px -5px #0007;
   border-radius: 4px;
   overflow: hidden;
@@ -102,7 +102,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: #000;
+  color: var(--dark);
   font-weight: 700;
   padding-block: 10px;
   padding-inline: 20px;
@@ -115,7 +115,7 @@
   position: absolute;
   inset: 0 100% 0 0;
   transition: all 0.3s;
-  background: #a00;
+  background: var(--theme-color);
   z-index: -1;
 }
 .user-nav a:hover::after, 
@@ -125,7 +125,7 @@
 .user-popup .user-nav a:hover,
 .user-nav a.active,
 .user-nav .user-info:hover p {
-  color: #fff;
+  color: var(--light);
   text-decoration: none;
 }
 
@@ -153,19 +153,19 @@
 }
 .settingNav {
   flex: 1;
-  background-color: #a00;
+  background-color: var(--theme-color);
   padding: 10px;
 }
 .settingNav div {
   display: flex;
   flex-flow: column;
-  background: #ddd;
+  background: var(--light);
   border-radius: 5px;
   padding: 10px;
 }
 
 .settingNav a {
-  color: #000;
+  color: var(--dark);
   font-weight: 700;
   padding: 5px;
   margin-top: 5px;
@@ -178,7 +178,7 @@
   text-decoration: none;
   border-radius: 5px;
   text-indent: 10px;
-  background: #a001;
+  background: var(--theme-color)1;
 }
 .settingNav a::after {
   position: absolute;
@@ -186,7 +186,7 @@
   inset: 0;
   right: 100%;
   border-radius: 5px;
-  background: #a00;
+  background: var(--theme-color);
 }
 .settingNav a:hover::after,
 .settingNav .active::after {
@@ -195,12 +195,10 @@
 
 .settingContent {
   flex: 4;
-  display: none;
+  display: flex;
   flex-flow: column;
 }
-#edit-info {
-  display: flex;
-}
+
 #edit-info .photo {
   display: flex;
   gap: 10px;
@@ -235,11 +233,11 @@
   transition: all 0.5s;
 }
 .photo div label:first-child {
-  background: #ddd;
+  background: var(--light);
 }
 .photo div label:last-child {
-  background: #a00;
-  color: #fff;
+  background: var(--theme-color);
+  color: var(--light);
 }
 
 .photo div label strong {
@@ -258,14 +256,14 @@
 #edit-info .photo img {
   width: 100%;
   aspect-ratio: 1;
-  outline: 1px solid #a00;
+  outline: 1px solid var(--theme-color);
   border-radius: 10px;
   transition: all 0.3s;
 }
 #edit-info .photo img:active {
   outline-style: dashed;
   box-shadow: 0 0 10px #0009;
-  background: #0005;
+  background: var(--light);
   outline-offset: 5px;
 }
 
@@ -310,8 +308,6 @@
   }
   .info .field .items {
     font-size: 0.8rem;
-  }
-  .info .field .username {
   }
   .info .field .btn {
     align-self: center;

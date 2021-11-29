@@ -15,7 +15,6 @@
 
   body {
     min-width: 320px;
-    box-shadow: 0 -1px 10px #2222, 0 1px 10px #2222;
   }
 
   footer {
@@ -70,7 +69,7 @@
     padding: 10px;
     position: absolute;
     inset: auto 0;
-    background: #fff;
+    background: var(--dark);
     transition: all 0.3s;
     z-index: 4;
   }
@@ -326,9 +325,7 @@
   .gallery .uploadBox .title {
     flex: 1;
     width: 100%;
-    margin: 0;
     align-items: center;
-    border-inline: 6px solid var(--theme-color);
   }
 
   .uploadBox .title h2 {
